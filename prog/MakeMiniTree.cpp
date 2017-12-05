@@ -499,5 +499,5 @@ void help()
 {
 	cout << "\n\nUsage:" << endl << endl;
 	cout << "MakeMiniTree <MiniTreeName> <ListOfDatasets>" << endl << endl;
-	cout << "The list of datasets should be separated by a simple space." << endl endl;
+	cout << "The list of datasets should be separated by a simple space." << endl << endl;
 };
