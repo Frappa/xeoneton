@@ -1,11 +1,10 @@
-#ifndef PAXDATA_HH
-#define PAXDATA_HH
-
 #include "TFile.h"
 #include "TTree.h"
 #include "TObject.h"
 #include "TString.h"
 #include <vector>
+
+
 
 
 
@@ -24,13 +23,14 @@ public:
 	Int_t  index_of_maximum;
 	Bool_t  is_rejected;
 	Int_t  left;
+	Int_t  left_central;
 	Int_t  n_saturated;
 	Float_t  noise_sigma;
 	Int_t  right;
+	Int_t  right_central;
 	Float_t  sum_absolute_deviation;
-	
-	ClassDef(Hit, 536);
-	
+
+    ClassDef(Hit, 680);
 };
 
 #endif
@@ -46,9 +46,12 @@ class Interaction : public TObject {
 
 public:
 	Float_t  drift_time;
+	Float_t  r_correction;
 	Int_t  s1;
 	Float_t  s1_area_correction;
+	Float_t  s1_area_fraction_top_probability;
 	Float_t  s1_pattern_fit;
+	Float_t  s1_pattern_fit_hits;
 	Float_t  s1_saturation_correction;
 	Float_t  s1_spatial_correction;
 	Int_t  s2;
@@ -60,9 +63,9 @@ public:
 	Float_t  xy_posrec_ndf;
 	Float_t  y;
 	Float_t  z;
+	Float_t  z_correction;
 
-    ClassDef(Interaction, 536);
-
+    ClassDef(Interaction, 680);
 };
 
 #endif
@@ -88,7 +91,7 @@ public:
 	Float_t  x0;
 	Float_t  y0;
 
-    ClassDef(ConfidenceTuple, 536);
+    ClassDef(ConfidenceTuple, 680);
 };
 
 #endif
@@ -109,7 +112,7 @@ public:
 	Float_t  y;
 	Float_t  z;
 
-    ClassDef(ReconstructedPosition, 536);
+    ClassDef(ReconstructedPosition, 680);
 };
 
 #endif
@@ -123,9 +126,10 @@ class Peak : public TObject {
 
 public:
 	Float_t  area;
+	Double_t  area_decile_from_midpoint[11];
 	Float_t  area_fraction_top;
 	Float_t  area_midpoint;
-	Double_t  area_per_channel[259];
+	Double_t  area_per_channel[260];
 	Float_t  birthing_split_fraction;
 	Float_t  birthing_split_goodness;
 	Float_t  bottom_hitpattern_spread;
@@ -136,10 +140,12 @@ public:
 	Float_t  hit_time_std;
 	std::vector <Hit>  hits;
 	Float_t  hits_fraction_top;
-	Short_t  hits_per_channel[259];
+	Short_t  hits_per_channel[260];
 	Int_t  index_of_maximum;
 	Float_t  interior_split_fraction;
 	Float_t  interior_split_goodness;
+	Float_t  largest_hit_area;
+	Int_t  largest_hit_channel;
 	Int_t  left;
 	Int_t  lone_hit_channel;
 	Float_t  mean_amplitude_to_noise;
@@ -148,19 +154,22 @@ public:
 	Int_t  n_hits;
 	Int_t  n_noise_pulses;
 	Int_t  n_saturated_channels;
-	Short_t  n_saturated_per_channel[259];
+	Short_t  n_saturated_per_channel[260];
 	Int_t  n_saturated_samples;
 	Double_t  range_area_decile[11];
 	std::vector <ReconstructedPosition>  reconstructed_positions;
 	Int_t  right;
+	Float_t  s2_bottom_spatial_correction;
 	Float_t  s2_saturation_correction;
 	Float_t  s2_spatial_correction;
+	Float_t  s2_top_spatial_correction;
 	Float_t  sum_waveform[251];
 	Float_t  sum_waveform_top[251];
+	Int_t  tight_coincidence;
 	Float_t  top_hitpattern_spread;
 	TString  type;
 
-    ClassDef(Peak, 536);
+    ClassDef(Peak, 680);
 };
 
 #endif
@@ -178,6 +187,7 @@ public:
 	Float_t  baseline;
 	Float_t  baseline_increase;
 	Int_t  channel;
+	Int_t  hitfinder_threshold;
 	Int_t  left;
 	Float_t  maximum;
 	Float_t  minimum;
@@ -185,7 +195,7 @@ public:
 	Float_t  noise_sigma;
 	Int_t  right;
 
-    ClassDef(Pulse, 536);
+    ClassDef(Pulse, 680);
 };
 
 #endif
@@ -210,7 +220,7 @@ public:
 	Bool_t  trigger;
 	Int_t  type;
 
-    ClassDef(TriggerSignal, 536);
+    ClassDef(TriggerSignal, 680);
 };
 
 #endif
@@ -224,15 +234,18 @@ class Event : public TObject {
 
 public:
 	std::vector <Hit>  all_hits;
+	Int_t  block_id;
 	TString  dataset_name;
 	Int_t  event_number;
 	std::vector <Interaction>  interactions;
-	Bool_t  is_channel_suspicious[259];
-	Short_t  lone_hits_per_channel[259];
-	Short_t  lone_hits_per_channel_before[259];
+	Bool_t  is_channel_suspicious[260];
+	Short_t  lone_hits_per_channel[260];
+	Short_t  lone_hits_per_channel_before[260];
 	Int_t  n_channels;
-	Short_t  n_hits_rejected[259];
-	Short_t  noise_pulses_in[259];
+	Short_t  n_hits_rejected[260];
+	Int_t  n_pulses;
+	Short_t  n_pulses_per_channel[260];
+	Short_t  noise_pulses_in[260];
 	std::vector <Peak>  peaks;
 	std::vector <Pulse>  pulses;
 	Int_t  sample_duration;
@@ -242,10 +255,10 @@ public:
 	std::vector <Int_t> s1s;
 	std::vector <Int_t> s2s;
 
-    ClassDef(Event, 536);
+    ClassDef(Event, 680);
 };
 
 #endif
 
 
-#endif
+
